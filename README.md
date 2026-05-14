@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Powered by Upstage](https://img.shields.io/badge/Powered%20by-Upstage%20Solar-blue)](https://upstage.ai)
 
-본 리포지토리의 출품 스킬은 **다이어트 일기(자연어)**를 **Upstage Solar API**로 구조화하고, **7일 이동평균(MA)** 기반 보상·**휴리스틱 정책(A1~A9)**·선제 경고·한국어 코칭을 제공하는 **Anthropic Agent Skill** 형식(`skills/diet_coach/`)으로 제출한다. 의료 진단·처방은 범위에서 제외한다.
+본 리포지토리의 출품 스킬은 **다이어트 일기**를 **Upstage Solar API**로 구조화하고, **7일 이동평균(MA)** 기반 보상·**휴리스틱 정책(A1~A9)**·선제 경고·한국어 코칭을 제공하는 **Anthropic Agent Skill** 형식(`skills/diet_coach/`)으로 제출한다. 의료 진단·처방은 범위에서 제외한다.
 
 ---
 
@@ -24,9 +24,9 @@
 
 ---
 
-## 대회 주제 부합
+## 대회 주제 부합「라이프스타일 혁신을 위한 AI Agent Skill」
 
-대회 주제 **「라이프스타일 혁신을 위한 AI Agent Skill」**에 맞추어, 일상의 체중·식이 기록과 회고를 **에이전트가 호출 가능한 단일 스킬**로 묶고 **Upstage Solar**를 추출·코칭 경로에 사용한다.
+대회 주제 **라이프스타일 혁신을 위한 AI Agent Skill**에 맞추어, 일상의 체중·식이 기록과 회고를 **에이전트가 호출 가능한 단일 스킬**로 묶고 **Upstage Solar**를 추출·코칭 경로에 사용한다.
 
 ---
 
@@ -41,13 +41,13 @@
 
 ---
 
-## 리포지토리 구조 (요약)
+## 리포지토리 구조
 
 ```
 skills/diet_coach/       출품 Skill (SKILL.md, main.py, stats.py, policy.py 등)
-skills/solar-skill-creator/   대회 제공 템플릿 (변경 금지)
+skills/solar-skill-creator/   대회 제공 템플릿
 skills/rldiet-journal-coach/  보조 예시 스킬
-.claude/skills/diet-coach/    Claude Code 진입용 SKILL (본체는 diet_coach와 동일 출품)
+.claude/skills/diet-coach/    Claude Code 진입용 SKILL
 ```
 
 ---
@@ -66,16 +66,6 @@ uvicorn main:app --reload --port 8001
 서버가 뜨면 브라우저에서 **OpenAPI 문서** `http://127.0.0.1:8001/docs` 로 각 엔드포인트를 바로 호출해 볼 수 있다.
 
 보조 검증: `python scripts/verify_metrics.py` · `python tests/test_all.py` (동일 디렉터리)
-
----
-
-## 제출·보안 확인
-
-- `SKILL.md`에 `name`, `description` 기재
-- API 키 파일(`.env`) 미커밋
-- `skills/**/data/*.json` 미커밋(개인 일기 데이터)
-
----
 
 ## 참고
 
