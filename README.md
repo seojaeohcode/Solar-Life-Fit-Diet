@@ -18,7 +18,7 @@
 | 기술·연동 명세 | [`skills/diet_coach/SKILL.md`](skills/diet_coach/SKILL.md) | 에이전트 지침, HTTP 엔드포인트, 보상·정책 요약 |
 | 스킬 메타 | `skills/diet_coach/SKILL.md` frontmatter | `name: solar-diet-master`, `description` (에이전트 트리거용) |
 
-제출 폴더명은 **`diet_coach`**이며, Claude Code `/skills` 목록에는 YAML `name`에 따라 **`solar-diet-master`**로 표시될 수 있다. 동일 출품이다.
+제출 폴더명은 `diet_coach`이며, Claude Code `/skills` 목록에는 YAML `name`에 따라 `solar-diet-master`로 표시될 수 있다. 동일 출품이다.
 
 저장소 안에서 **`skills/`** 아래 폴더 역할(Claude Code 진입점 vs 제출 본체)은 [`skills/README.md`](skills/README.md)에 정리해 두었다.
 
