@@ -19,6 +19,8 @@ Endpoints (see SKILL.md for details):
 
 from __future__ import annotations
 
+import encoding_bootstrap  # noqa: F401 — Windows 콘솔 UTF-8 (cp949 무관)
+
 import json
 import os
 import re
@@ -167,21 +169,21 @@ def _append_coach_history(item: dict) -> None:
 # --- Solar integrations ------------------------------------------------------
 
 _EXTRACT_PROPERTIES = {
-    "weight_kg": {"type": "number", "description": "공복 체중 kg. 없으면 null."},
-    "calories_in": {"type": "number", "description": "어제 섭취 kcal. 없으면 null."},
-    "steps": {"type": "integer", "description": "어제 걸음 수. 없으면 null."},
-    "sleep_hours": {"type": "number", "description": "어젯밤 수면 시간. 없으면 null."},
-    "sleep_quality": {"type": "number", "description": "0~1 수면 질. 없으면 null."},
+    "weight_kg": {"type": ["number", "null"], "description": "공복 체중 kg. 텍스트에 명시된 숫자가 없으면 반드시 null. 0으로 채우지 말 것."},
+    "calories_in": {"type": ["number", "null"], "description": "어제 섭취 kcal. 명시 없으면 반드시 null. 0으로 채우지 말 것."},
+    "steps": {"type": ["integer", "null"], "description": "어제 걸음 수. 명시 없으면 반드시 null. '만보'는 10000으로 본다."},
+    "sleep_hours": {"type": ["number", "null"], "description": "어젯밤 수면 시간. 명시 없으면 반드시 null. 0으로 채우지 말 것."},
+    "sleep_quality": {"type": ["number", "null"], "description": "0~1 수면 질. 명시 없으면 반드시 null."},
     "exercises_done": {
         "type": "array",
-        "description": "어제 운동 목록.",
+        "description": "어제 운동 목록. 운동 언급 없으면 빈 배열.",
         "items": {"type": "string"},
     },
-    "exercise_note": {"type": "string"},
-    "notes": {"type": "string"},
+    "exercise_note": {"type": "string", "description": "운동 메모. 없으면 빈 문자열."},
+    "notes": {"type": "string", "description": "기타 회고 메모. 없으면 빈 문자열."},
     "diet_keywords": {
         "type": "array",
-        "description": "식단·식사 관련 한국어 키워드 (음식명, 야식/회식 등 패턴).",
+        "description": "식단·식사 관련 한국어 키워드 (음식명, 야식/회식 등 패턴). 없으면 빈 배열.",
         "items": {"type": "string"},
     },
 }
@@ -286,6 +288,18 @@ def solar_extract_journal(narrative: str) -> ExtractedFields:
         data["weight_kg"] = rx_w
     elif rx_w is not None and model_w is None:
         data["weight_kg"] = rx_w
+
+    # Strict schema가 nullable을 무시하고 0을 채울 수 있으므로 보정한다.
+    # 0이 들어왔는데 원문에 명시적 숫자가 없으면 정보 없음으로 간주해 None으로 되돌린다.
+    def _zero_to_none(field: str, num_token_pattern: str) -> None:
+        v = data.get(field)
+        if v in (0, 0.0) and not re.search(num_token_pattern, narrative):
+            data[field] = None
+
+    _zero_to_none("calories_in", r"\d{2,5}\s*(?:kcal|칼로리)")
+    _zero_to_none("steps", r"(?:\d{2,6}\s*보|걸음|만보)")
+    _zero_to_none("sleep_hours", r"(?:잠|수면)\s*\d{1,2}")
+    _zero_to_none("sleep_quality", r"수면\s*질|푹\s*잤|얕은\s*잠")
 
     return ExtractedFields(
         weight_kg=data.get("weight_kg"),

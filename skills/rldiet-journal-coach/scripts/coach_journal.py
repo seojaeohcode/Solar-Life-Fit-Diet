@@ -12,6 +12,11 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+_skill_root = Path(__file__).resolve().parents[1]
+if str(_skill_root) not in sys.path:
+    sys.path.insert(0, str(_skill_root))
+import encoding_bootstrap  # noqa: E402, F401
+
 
 def _find_repo_root(start: Path) -> Path | None:
     for p in [start, *start.parents]:

@@ -31,7 +31,7 @@ echo "..." | python scripts/coach_journal.py
 
 `cwd`는 **이 스킬 폴더**(`rldiet-journal-coach/`) 또는 리포 루트여도 된다. 스크립트가 `.git`이 있는 디렉터리를 찾아 리포 루트의 `.env`를 읽는다.
 
-Windows PowerShell에서 한글이 깨지면 실행 전에 `$env:PYTHONUTF8=1`을 설정한다.
+Windows(cp949 콘솔)에서도 한글 출력은 `encoding_bootstrap`이 자동으로 UTF-8 stdio로 맞춘다. 별도 `PYTHONUTF8` 설정은 필요 없다.
 
 ## 출력 스키마 (스크립트 기본)
 

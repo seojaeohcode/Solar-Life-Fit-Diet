@@ -12,6 +12,8 @@ from pathlib import Path
 # 패키지 없이 로컬 모듈 로드
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+import encoding_bootstrap  # noqa: E402, F401
+
 from models import ActivityMode, DailyEntry, DietMode, Journal, Phase  # noqa: E402
 from policy import decide  # noqa: E402
 from stats import detect_phase, reward_breakdown_last_step  # noqa: E402
