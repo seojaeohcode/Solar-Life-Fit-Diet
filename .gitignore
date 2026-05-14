@@ -1,4 +1,5 @@
 .env
+.env.local
 __pycache__/
 *.pyc
 *.pyo
@@ -11,11 +12,21 @@ build/
 *.skill
 .omc/
 .omx/
+
+# Python 도구 캐시·커버리지
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.log
+
 # .claude 전체는 제외하되, Claude Code /skills용 진입 스킬과 settings.json만 커밋
 .claude/*
 !.claude/settings.json
 !.claude/skills/
 !.claude/skills/**/*
 
-# diet_coach 로컬 런타임 데이터(일기·통계 JSON) — 제출 리포에 개인 기록이 올라가지 않도록 제외
-skills/diet_coach/data/*.json
+# 스킬별 로컬 런타임 JSON(일기·통계·코칭 이력 등) — 제출 리포에 개인 기록이 올라가지 않도록 제외
+# (data/.gitkeep 은 *.json 이 아니므로 커밋 가능)
+skills/**/data/*.json

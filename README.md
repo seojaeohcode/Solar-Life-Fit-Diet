@@ -145,6 +145,9 @@ description: 이 스킬이 하는 일과 언제 사용해야 하는지. (WHAT + 
 - [ ] Claude Code에서 스킬이 정상 동작함
 - [ ] `.env` 파일이 커밋되지 않음 (API 키 노출 방지)
 
+### 심사 참고 (본 저장소 출품)
+
+이 fork의 출품 스킬은 **`skills/diet_coach/`** 입니다. 심사·발표에서 말로 시연하실 때는 **`skills/diet_coach/references/시연·검증_시나리오.md`** 를 먼저 보시면 API 용어 없이 흐름을 따라가실 수 있습니다. 구조와 엔드포인트는 같은 폴더의 **`SKILL.md`** 에 정리되어 있습니다.
 
 ## References
 
