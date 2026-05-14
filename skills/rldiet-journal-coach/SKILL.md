@@ -1,6 +1,6 @@
 ---
 name: rldiet-journal-coach
-description: 한국어 다이어트 저널(어제 식사·수면·운동 회고, 오늘 공복 체중 등)을 읽고 Solar로 요약·다음 하루 집중 포인트를 JSON으로 정리한다. 사용자가 체중 기록, 식단 회고, 다이어트 코칭, RL-Diet 스타일 저널, 공복 체중, 칼로리·걸음 언급을 할 때 항상 이 스킬을 사용한다. 의학적 진단·처방은 하지 않는다.
+description: 경량 CLI 예시만 제공한다. 저널 한 덩어리를 Solar Chat으로 넘겨 summary_ko·focus_tomorrow 등 JSON만 받는다. FastAPI·MA 보상·정책 A1~A9·저널 저장은 출품 스킬 solar-diet-master(skills/diet_coach)를 사용한다. HTTP 서버 없이 스크립트만 돌릴 때만 이 스킬을 고른다. 의학적 진단·처방은 하지 않는다.
 ---
 
 # RL-Diet 저널 코칭 (Upstage Solar)
@@ -9,6 +9,8 @@ description: 한국어 다이어트 저널(어제 식사·수면·운동 회고,
 
 에이전트가 사용자의 **자유 서술형 다이어트 저널**을 받았을 때, Upstage **Chat Completions**로 짧은 구조화 결과를 만들어 후속 답변(코칭 문장, UI 필드 제안 등)에 쓰게 한다.
 
+**출품 본체와의 차이:** `skills/diet_coach`(solar-diet-master)는 같은 Solar를 쓰지만 **저장·이동평균 보상·정책·선제 경고·HTTP API**까지 포함한다. 이 폴더는 **단일 스크립트**로 빠르게 요약 JSON만 필요할 때의 예시이다.
+
 ## 사용하지 않는 경우
 
 - PDF·영수증에서 필드만 뽑는 경우 → Information Extract / Document Parse 쪽이 맞다.
@@ -16,7 +18,7 @@ description: 한국어 다이어트 저널(어제 식사·수면·운동 회고,
 
 ## 실행 방법
 
-1. `UPSTAGE_API_KEY`를 환경 변수로 두거나, 리포 루트 `.env` / 이 스킬의 `assets/.env`에 둔다(템플릿은 `assets/.env.example`).
+1. `UPSTAGE_API_KEY`를 환경 변수로 두거나, **`리포지토리 루트` `.env`** 또는 이 스킬의 **`assets/.env`**에 둔다(템플릿은 `assets/.env.example`). 스크립트 `coach_journal.py`는 **루트 `.env`를 먼저** 읽은 뒤 `rldiet-journal-coach/assets/.env`로 비어 있는 키만 채운다(이미 설정된 키는 덮어쓰지 않음).
 2. 결정적 출력이 필요하면 아래 스크립트를 호출한다.
 
 ```bash

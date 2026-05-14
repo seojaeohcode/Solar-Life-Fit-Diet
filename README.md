@@ -1,167 +1,91 @@
-# JNU × Upstage Skillthon
+# Solar Diet Master
 
-> **전남대학교 소프트웨어중심대학 × 업스테이지**
-> 2026 교내 디지털 경진대회 (SW부문)
+**2026 전남대학교 소프트웨어중심대학 × 업스테이지 교내 디지털 경진대회(SW부문) — Skillthon 출품**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Powered by Upstage](https://img.shields.io/badge/Powered%20by-Upstage%20Solar-blue)](https://upstage.ai)
-[![Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-orange)](https://claude.ai/code)
+
+본 리포지토리의 출품 스킬은 **다이어트 일기(자연어)**를 **Upstage Solar API**로 구조화하고, **7일 이동평균(MA)** 기반 보상·**휴리스틱 정책(A1~A9)**·선제 경고·한국어 코칭을 제공하는 **Anthropic Agent Skill** 형식(`skills/diet_coach/`)으로 제출한다. 의료 진단·처방은 범위에서 제외한다.
 
 ---
 
-## 목차
+## 제출물 및 문서 위치
 
-- [JNU × Upstage Skillthon](#jnu--upstage-skillthon)
-  - [목차](#목차)
-  - [Skillthon이란?](#skillthon이란)
-  - [크레딧 지원 — $70 무료 제공](#크레딧-지원--70-무료-제공)
-    - [크레딧 받는 방법](#크레딧-받는-방법)
-  - [사전 요구사항](#사전-요구사항)
-  - [시작하는 방법](#시작하는-방법)
-    - [1단계 — Repo Fork](#1단계--repo-fork)
-    - [2단계 — Clone \& 열기](#2단계--clone--열기)
-    - [3단계 — solar-skill-creator 설치](#3단계--solar-skill-creator-설치)
-    - [4단계 — Skill 만들기](#4단계--skill-만들기)
-  - [제출 구성](#제출-구성)
-  - [References](#references)
-  - [문의](#문의)
-
----
-
-## Skillthon이란?
-
-**하나의 Skill을 만드는 대회**입니다.
-
-> **Skills for Your Daily Life** — 일상의 문제를 해결하는 AI Agent용 모듈을 만듭니다.
-
-Skill은 AI Agent가 필요할 때 꺼내 쓰는 **단일 목적 도구**입니다. 사람이 직접 호출하지 않아도, Agent가 상황을 판단해 스스로 Skill을 선택·실행합니다.
-
-## 크레딧 지원 — $70 무료 제공
-
-대회 참가자 전원에게 **Upstage API 크레딧 $70**을 무료로 지원합니다.
-
-### 크레딧 받는 방법
-
-1. **[console.upstage.ai](https://console.upstage.ai)** 에 회원가입 / 로그인
-2. 상단 **Dashboard** 탭 클릭
-3. 좌측 메뉴 **Billing → Credit** 클릭
-4. 우측 **Redeem code** 버튼 클릭
-
-![Upstage 크레딧 리딤 방법](assets/referral_code.jpg)
-
-5. 아래 코드 입력 후 확인
-
-```
-UPWAVE-KOH
-```
-
-> **$70 크레딧이 즉시 적립됩니다.**
-
----
-
-## 사전 요구사항
-
-| 도구 | 버전 | 용도 |
+| 구분 | 경로 | 내용 |
 |------|------|------|
-| [Claude Code](https://claude.ai/code) | 최신 | Skill 개발 환경 |
-| Git | — | Fork & Clone |
-| Upstage API 키 | — | [위 크레딧 지원](#크레딧-지원--70-무료-제공)으로 발급 |
+| 출품 본체 | [`skills/diet_coach/`](skills/diet_coach/) | Anthropic Skill 디렉터리 (`SKILL.md`, 스크립트, 테스트) |
+| 시연·검증 가이드 | [`skills/diet_coach/references/시연·검증_시나리오.md`](skills/diet_coach/references/시연·검증_시나리오.md) | 자연어 시나리오·기대 결과 (API 용어 최소화) |
+| 기술·연동 명세 | [`skills/diet_coach/SKILL.md`](skills/diet_coach/SKILL.md) | 에이전트 지침, HTTP 엔드포인트, 보상·정책 요약 |
+| 스킬 메타 | `skills/diet_coach/SKILL.md` frontmatter | `name: solar-diet-master`, `description` (에이전트 트리거용) |
+
+제출 폴더명은 **`diet_coach`**이며, Claude Code `/skills` 목록에는 YAML `name`에 따라 **`solar-diet-master`**로 표시될 수 있다. 동일 출품이다.
+
+저장소 안에서 **`skills/`** 아래 폴더 역할(Claude Code 진입점 vs 제출 본체)은 [`skills/README.md`](skills/README.md)에 정리해 두었다.
 
 ---
 
-## 시작하는 방법
+## 대회 주제 부합
 
-> **이 가이드는 [Claude Code](https://claude.ai/code) 기준으로 작성되었습니다.**
+대회 주제 **「라이프스타일 혁신을 위한 AI Agent Skill」**에 맞추어, 일상의 체중·식이 기록과 회고를 **에이전트가 호출 가능한 단일 스킬**로 묶고 **Upstage Solar**를 추출·코칭 경로에 사용한다.
 
-### 1단계 — Repo Fork
+---
 
-GitHub 우측 상단 **Fork** 버튼 클릭
+## 주요 기능
 
-### 2단계 — Clone & 열기
+- 자연어 일기에서 체중·식단 키워드 등 필드 추출(Solar Chat + JSON 스키마), 체중 정규식 교차검증
+- 7일 MA 기반 합성 보상(`R_weight` 등) 및 phase 판정
+- 휴리스틱 정책 A1~A9(예: 정체 시 A7, 위험 점수 기반 A8)
+- 선제 경고 API(급감량·저칼로리·수면 부족 등 패턴)
+- 보상·정책·최근 추세를 컨텍스트로 한 Solar 기반 한국어 코칭 마크다운
+- 로컬 JSON 저장(`data/`), Git 제외 처리
+
+---
+
+## 리포지토리 구조 (요약)
+
+```
+skills/diet_coach/       출품 Skill (SKILL.md, main.py, stats.py, policy.py 등)
+skills/solar-skill-creator/   대회 제공 템플릿 (변경 금지)
+skills/rldiet-journal-coach/  보조 예시 스킬
+.claude/skills/diet-coach/    Claude Code 진입용 SKILL (본체는 diet_coach와 동일 출품)
+```
+
+---
+
+## 구동 방법
+
+**환경:** Python **3.10 이상**을 권장한다. 가상환경(`.venv` 등) 사용을 권장한다.
 
 ```bash
-git clone https://github.com/[내-username]/JNU-Upstage-Skillthon
-cd JNU-Upstage-Skillthon
-claude .
+cd skills/diet_coach
+pip install -r requirements.txt
+# UPSTAGE_API_KEY: skills/diet_coach/assets/.env 권장(우선 로드). 없으면 skills/diet_coach/.env 또는 리포 루트 .env
+uvicorn main:app --reload --port 8001
 ```
 
-### 3단계 — solar-skill-creator 설치
+서버가 뜨면 브라우저에서 **OpenAPI 문서** `http://127.0.0.1:8001/docs` 로 각 엔드포인트를 바로 호출해 볼 수 있다.
 
-Claude Code 내에서 실행:
-
-```
-/plugin marketplace add GoBeromsu/JNU-Upstage-Skillthon
-/plugin install solar-skill-creator@solar-skill-creator
-```
-
-> 설치 확인: Claude Code 내에서 `/plugin list` 또는 `/skills` 실행 → `solar-skill-creator` 목록에 표시
-
-### 4단계 — Skill 만들기
-
-Claude Code 프롬프트에 아래와 같이 입력하세요.  
-**Upstage API 키 설정 등 모든 초기 설정을 solar-skill-creator가 안내합니다.**
-
-```
-> 내 주변의 버터떡을 파는 곳을 가져오는 스킬을 만들고 싶어요
-```
-
-solar-skill-creator가 순서대로 안내하는 항목:
-1. Upstage API 키 입력 및 `.env` 설정
-2. 만들 스킬 아이디어 인터뷰
-3. 스킬 코드 생성 및 테스트
-4. 제출용 파일 구조 완성
-
-완성된 스킬 디렉토리가 repo 루트에 생성됩니다.
+보조 검증: `python scripts/verify_metrics.py` · `python tests/test_all.py` (동일 디렉터리)
 
 ---
 
-## 제출 구성
+## 제출·보안 확인
 
-Fork된 repo의 `skills/` 아래에 **Anthropic 표준 Skill 포맷**으로 스킬을 추가합니다:
-
-```
-JNU-Upstage-Skillthon/
-└── skills/
-    ├── [내-스킬-이름]/
-    │   ├── SKILL.md              # 필수: name·description + 스킬 지침
-    │   ├── scripts/              # 선택: 실행 코드 (Upstage API 호출 등)
-    │   ├── references/           # 선택: 참조 문서
-    │   └── assets/               # 선택: 템플릿·파일 등
-    └── solar-skill-creator/      # 수정 금지
-```
-
-**SKILL.md 필수 frontmatter:**
-
-```yaml
----
-name: my-skill-name
-description: 이 스킬이 하는 일과 언제 사용해야 하는지. (WHAT + WHEN)
----
-```
-
-**제출 전 체크리스트:**
-
-- [ ] `SKILL.md`에 `name`과 `description`이 작성됨
-- [ ] Claude Code에서 스킬이 정상 동작함
-- [ ] `.env` 파일이 커밋되지 않음 (API 키 노출 방지)
-
-### 심사 참고 (본 저장소 출품)
-
-이 fork의 출품 스킬은 **`skills/diet_coach/`** 입니다. 심사·발표에서 말로 시연하실 때는 **`skills/diet_coach/references/시연·검증_시나리오.md`** 를 먼저 보시면 API 용어 없이 흐름을 따라가실 수 있습니다. 구조와 엔드포인트는 같은 폴더의 **`SKILL.md`** 에 정리되어 있습니다.
-
-## References
-
-| 문서 | 설명 |
-|------|------|
-| [solar-skill-creator Marketplace](https://github.com/GoBeromsu/JNU-Upstage-Skillthon) | 이 repo — `solar-skill-creator` 마켓플레이스 |
-| [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code/) | Claude Code 공식 문서 (Skills, Plugins, Marketplace) |
-| [Upstage Console Docs](https://console.upstage.ai/docs/capabilities) | Solar LLM, Embeddings, Document Parse API 레퍼런스 |
-| [Upstage API Spec (machine-readable)](https://console.upstage.ai/api/docs/for-agents/raw) | Agent가 바로 읽을 수 있는 Upstage API 원본 스펙 |
+- `SKILL.md`에 `name`, `description` 기재
+- API 키 파일(`.env`) 미커밋
+- `skills/**/data/*.json` 미커밋(개인 일기 데이터)
 
 ---
 
-## 문의
+## 참고
 
-- **담당:** 조아라 연구원 / 고범수
-- **전화:** 062-530-5364 / 010-4012-1143
-- **이메일:** [rha852@jnu.ac.kr](mailto:rha852@jnu.ac.kr) / [gobeumsu@gmail.com](mailto:gobeumsu@gmail.com)
+| 항목 | URL |
+|------|-----|
+| Upstage API 개요 | https://console.upstage.ai/docs/capabilities |
+| Skillthon 원본 템플릿(크레딧·공통 안내) | https://github.com/GoBeromsu/JNU-Upstage-Skillthon |
+
+---
+
+## 대회 문의
+
+전남대학교 소프트웨어중심대학사업단 — 조아라 연구원 / 고범수 · 062-530-5364 · 010-4012-1143 · rha852@jnu.ac.kr · gobeumsu@gmail.com

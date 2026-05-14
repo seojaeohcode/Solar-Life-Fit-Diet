@@ -1,6 +1,6 @@
 ---
 name: rldiet-journal-coach
-description: Solar로 한국어 다이어트 저널을 JSON 구조로 요약. Claude Code `/rldiet-journal-coach` 진입점 — 스크립트는 skills/rldiet-journal-coach/ 에 있다.
+description: CLI 예시만. 저널 텍스트→Solar→JSON 요약. 출품 FastAPI 스킬은 solar-diet-master(skills/diet_coach). Claude Code 진입점 — 상세는 skills/rldiet-journal-coach/SKILL.md.
 ---
 
 # RL-Diet 저널 코칭 (Claude Code 진입)
