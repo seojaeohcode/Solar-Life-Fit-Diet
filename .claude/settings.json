@@ -1,5 +1,10 @@
 {
   "enabledPlugins": {
     "solar-skill-creator@solar-skill-creator": true
+  },
+  "permissions": {
+    "allow": [
+      "Read(./skills/**)"
+    ]
   }
 }

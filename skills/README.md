@@ -1,5 +1,10 @@
 # `skills/` 디렉터리 안내
 
+## Claude Code `/skills` 와의 관계
+
+Claude Code는 **`skills/`(리포 루트)** 가 아니라 **`.claude/skills/<이름>/SKILL.md`** 만 `/skills`·`/<이름>` 명령으로 읽는다.  
+그래서 **`.claude/skills/diet-coach/`**, **`.claude/skills/rldiet-journal-coach/`** 에 진입용 `SKILL.md`를 두었고, 상세 구현·제출물은 아래 **`skills/`** 쪽이 본체다.
+
 | 폴더 | 역할 |
 |------|------|
 | `solar-skill-creator/` | 템플릿 플러그인 — **수정·삭제하지 마세요.** |

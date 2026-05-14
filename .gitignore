@@ -11,7 +11,11 @@ build/
 *.skill
 .omc/
 .omx/
-.claude/
+# .claude 전체는 제외하되, Claude Code /skills용 진입 스킬과 settings.json만 커밋
+.claude/*
+!.claude/settings.json
+!.claude/skills/
+!.claude/skills/**/*
 
 # diet_coach 로컬 런타임 데이터(일기·통계 JSON) — 제출 리포에 개인 기록이 올라가지 않도록 제외
 skills/diet_coach/data/*.json
